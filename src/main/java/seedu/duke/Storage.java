@@ -1,4 +1,5 @@
 package seedu.duke;
+
 import java.io.IOException;
 
 public class Storage {

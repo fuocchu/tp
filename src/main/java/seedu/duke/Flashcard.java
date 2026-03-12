@@ -9,5 +9,4 @@ public class Flashcard {
         this.question = question;
         this.answer = answer;
     }
-
 }
