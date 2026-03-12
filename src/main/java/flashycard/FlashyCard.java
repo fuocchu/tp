@@ -1,8 +1,6 @@
 package flashycard;
 
 import flashycard.model.KnowledgeBase;
-import flashycard.command.Command;
-import flashycard.parser.Parser;
 import flashycard.storage.Storage;
 import flashycard.ui.Ui;
 
