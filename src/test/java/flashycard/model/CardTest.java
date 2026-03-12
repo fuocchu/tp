@@ -1,10 +1,9 @@
-package seedu.duke;
+package flashycard.model;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
 
-class DukeTest {
+public class CardTest {
     @Test
     public void sampleTest() {
         assertTrue(true);

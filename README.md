@@ -1,6 +1,6 @@
 # FlashyCard project
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+This is a project template for a greenfield Java project. It's named after the Java mascot _FlashyCard_. Given below are instructions on how to use it.
 
 ## Setting up in Intellij
 
@@ -8,13 +8,14 @@ Prerequisites: JDK 17 (use the exact version), update Intellij to the most recen
 
 1. **Ensure Intellij JDK 17 is defined as an SDK**, as described [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk) -- this step is not needed if you have used JDK 17 in a previous Intellij project.
 1. **Import the project _as a Gradle project_**, as described [here](https://se-education.org/guides/tutorials/intellijImportGradleProject.html).
-1. **Verify the setup**: After the importing is complete, locate the `src/main/java/seedu/duke/Duke.java` file, right-click it, and choose `Run Duke.main()`. If the setup is correct, you should see something like the below:
+1. **Verify the setup**: After the importing is complete, locate the `src/main/java/FlashyCard/FlashyCard.java` file, right-click it, and choose `Run FlashyCard.main()`. If the setup is correct, you should see something like the below:
+
    ```
    > Task :compileJava
    > Task :processResources NO-SOURCE
    > Task :classes
    
-   > Task :Duke.main()
+   > Task :FlashyCard.main()
    Hello from
     ____        _        
    |  _ \ _   _| | _____ 
@@ -24,6 +25,7 @@ Prerequisites: JDK 17 (use the exact version), update Intellij to the most recen
    
    What is your name?
    ```
+
    Type some word and press enter to let the execution proceed to the end.
 
 **Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
@@ -41,7 +43,7 @@ Prerequisites: JDK 17 (use the exact version), update Intellij to the most recen
 
 ### JUnit tests
 
-* A skeleton JUnit test (`src/test/java/seedu/duke/DukeTest.java`) is provided with this project template. 
+* A skeleton JUnit test (`src/test/java/seedu/FlashyCard/FlashyCardTest.java`) is provided with this project template.
 * If you are new to JUnit, refer to the [JUnit Tutorial at se-education.org/guides](https://se-education.org/guides/tutorials/junit.html).
 
 ## Checkstyle
@@ -57,7 +59,8 @@ The project uses [GitHub actions](https://github.com/features/actions) for CI. W
 
 `/docs` folder contains a skeleton version of the project documentation.
 
-Steps for publishing documentation to the public: 
+Steps for publishing documentation to the public:
+
 1. If you are using this project template for an individual project, go your fork on GitHub.<br>
    If you are using this project template for a team project, go to the team fork on GitHub.
 1. Click on the `settings` tab.
