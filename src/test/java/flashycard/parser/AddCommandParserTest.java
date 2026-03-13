@@ -65,4 +65,10 @@ public class AddCommandParserTest {
         AddCommandParser parser = new AddCommandParser();
         assertThrows(InvalidArgumentException.class, () -> parser.parse(""));
     }
+
+    @Test
+    void testParse_nullString_throwsInvalidArgumentException() {
+        AddCommandParser parser = new AddCommandParser();
+        assertThrows(InvalidArgumentException.class, () -> parser.parse(null));
+    }
 }
