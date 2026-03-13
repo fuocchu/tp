@@ -1,5 +1,6 @@
 package flashycard.model;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 public class KnowledgeBase {
@@ -27,5 +28,9 @@ public class KnowledgeBase {
 
     public boolean hasCard(int id) {
         return cards.containsKey(id);
+    }
+
+    public Collection<Card> getAllCards() {
+        return cards.values();
     }
 }
