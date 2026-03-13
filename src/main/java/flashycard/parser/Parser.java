@@ -9,6 +9,10 @@ public class Parser {
             new ExitCommandParser(), new FlipCommandParser(), new ListCommandParser(), new ViewCommandParser() };
 
     public static Command parse(String fullCommand) throws InvalidCommandException, InvalidArgumentException {
+        if (fullCommand == null) {
+            throw new InvalidCommandException("Command String cannot be null");
+        }
+
         for (CommandParser p : parsers) {
             if (fullCommand.startsWith(p.MATCH_PREFIX)) {
                 return p.parse(fullCommand);
