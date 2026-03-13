@@ -4,7 +4,8 @@ import flashycard.command.Command;
 import flashycard.exceptions.InvalidArgumentException;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ListCommandParserTest {
 
@@ -12,14 +13,16 @@ public class ListCommandParserTest {
     void testParse_validListCommand_returnsCommand() throws InvalidArgumentException {
         ListCommandParser parser = new ListCommandParser();
         Command command = parser.parse("list");
-        assertNotNull(command);
+        // TODO: Change to specific command type
+        assertTrue(command instanceof Command);
     }
 
     @Test
     void testParse_validListCommandWithWhitespace_returnsCommand() throws InvalidArgumentException {
         ListCommandParser parser = new ListCommandParser();
         Command command = parser.parse("  list  ");
-        assertNotNull(command);
+        // TODO: Change to specific command type
+        assertTrue(command instanceof Command);
     }
 
     @Test

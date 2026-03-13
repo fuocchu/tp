@@ -4,7 +4,8 @@ import flashycard.command.Command;
 import flashycard.exceptions.InvalidArgumentException;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ExitCommandParserTest {
 
@@ -12,14 +13,16 @@ public class ExitCommandParserTest {
     void testParse_validExitCommand_returnsCommand() throws InvalidArgumentException {
         ExitCommandParser parser = new ExitCommandParser();
         Command command = parser.parse("exit");
-        assertNotNull(command);
+        // TODO: Change to specific command type
+        assertTrue(command instanceof Command);
     }
 
     @Test
     void testParse_validExitCommandWithWhitespace_returnsCommand() throws InvalidArgumentException {
         ExitCommandParser parser = new ExitCommandParser();
         Command command = parser.parse("  exit  ");
-        assertNotNull(command);
+        // TODO: Change to specific command type
+        assertTrue(command instanceof Command);
     }
 
     @Test
