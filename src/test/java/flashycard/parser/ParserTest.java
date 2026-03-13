@@ -4,7 +4,8 @@ import flashycard.command.Command;
 
 import flashycard.exceptions.InvalidCommandException;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ParserTest {
 
@@ -12,7 +13,6 @@ class ParserTest {
     void parse_validAddCommand_returnsAddCommand() throws Exception {
         String command = "add q/abc? a/a b c d e f g ";
         Command result = Parser.parse(command);
-        assertNotNull(result);
         // TODO: Change to specific command type
         assertTrue(result instanceof Command);
     }
@@ -21,7 +21,6 @@ class ParserTest {
     void parse_validDeleteCommand_returnsDeleteCommand() throws Exception {
         String command = "delete 1";
         Command result = Parser.parse(command);
-        assertNotNull(result);
         // TODO: Change to specific command type
         assertTrue(result instanceof Command);
     }
@@ -30,7 +29,7 @@ class ParserTest {
     void parse_validExitCommand_returnsExitCommand() throws Exception {
         String command = "exit";
         Command result = Parser.parse(command);
-        assertNotNull(result);
+
         // TODO: Change to specific command type
         assertTrue(result instanceof Command);
     }
@@ -39,7 +38,6 @@ class ParserTest {
     void parse_validFlipCommand_returnsFlipCommand() throws Exception {
         String command = "flip 1";
         Command result = Parser.parse(command);
-        assertNotNull(result);
         // TODO: Change to specific command type
         assertTrue(result instanceof Command);
     }

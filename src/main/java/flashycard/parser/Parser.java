@@ -2,11 +2,17 @@ package flashycard.parser;
 
 import flashycard.command.Command;
 import flashycard.exceptions.InvalidArgumentException;
-import flashycard.exceptions.InvalidCommandException;;
+import flashycard.exceptions.InvalidCommandException;
 
 public class Parser {
-    private static CommandParser[] parsers = new CommandParser[] { new AddCommandParser(), new DeleteCommandParser(),
-            new ExitCommandParser(), new FlipCommandParser(), new ListCommandParser(), new ViewCommandParser() };
+    private static CommandParser[] parsers = new CommandParser[] {
+        new AddCommandParser(),
+        new DeleteCommandParser(),
+        new ExitCommandParser(),
+        new FlipCommandParser(),
+        new ListCommandParser(),
+        new ViewCommandParser()
+    };
 
     public static Command parse(String fullCommand) throws InvalidCommandException, InvalidArgumentException {
         if (fullCommand == null) {
