@@ -13,6 +13,7 @@ class StorageTest {
 
     @Test
     void storageCreatesFileAndCanLoadSave() throws Exception {
+        // Create files if not exists
         File file = new File(testFilePath);
         if (file.exists()) {
             file.delete();
