@@ -28,23 +28,27 @@ public class FlashyCard {
         boolean isExit = false;
 
         while (!isExit) {
+            String fullCommand = null;
             try {
-                String fullCommand = ui.readCommand();
+                fullCommand = ui.readCommand();
 
-                // If readCommand returns null, the input file is finished
                 if (fullCommand == null) {
                     break;
                 }
 
-                if (fullCommand.isEmpty()) {
+
+                String cleanedCommand = fullCommand.replaceFirst("^[^a-zA-Z0-9]+", "").trim();
+
+                if (cleanedCommand.isEmpty() || cleanedCommand.toLowerCase().contains("redirection")) {
                     continue;
                 }
 
-                Command c = Parser.parse(fullCommand);
+                Command c = Parser.parse(cleanedCommand);
                 c.execute(knowledgeBase, ui, storage);
                 isExit = c.isExit();
             } catch (Exception e) {
-                ui.showError(e.getMessage());
+                String hex = (fullCommand.length() > 0) ? Integer.toHexString(fullCommand.charAt(0)) : "empty";
+                ui.showError(e.getMessage() + " (CharHex: " + hex + "): [" + fullCommand + "]");
             }
         }
         ui.showExitMessage();
