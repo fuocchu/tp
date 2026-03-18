@@ -18,13 +18,13 @@ import flashycard.ui.Ui;
 
 public class AddCommandTest {
 
+    @TempDir
+    Path tempDir;
+
     private KnowledgeBase kb;
     private Ui ui;
     private Storage storage;
     private Path tempFile;
-
-    @TempDir
-    Path tempDir;
 
     @BeforeEach
     public void setUp() {
