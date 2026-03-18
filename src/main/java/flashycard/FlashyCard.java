@@ -37,11 +37,9 @@ public class FlashyCard {
                     break;
                 }
 
-                if (fullCommand.contains("Input redirection is not supported")) {
-                    continue;
-                }
+                fullCommand = fullCommand.replace("\uFEFF", "").replace("\r", "");
 
-                if (fullCommand.trim().isEmpty()) {
+                if (fullCommand.trim().isEmpty() || fullCommand.toLowerCase().contains("redirection")) {
                     continue;
                 }
 
