@@ -16,8 +16,11 @@ for /f "tokens=*" %%a in ('dir /b *.jar') do set jarloc=%%a
 
 timeout /t 3 /nobreak >nul
 
+
 cd ..\..\text-ui-test
-java -jar ..\build\libs\%jarloc% < input.txt > ACTUAL.TXT
+java -jar ..\build\libs\%jarloc% < input.txt > ACTUAL.TXT 2>nul
+
+timeout /t 3 /nobreak >nul
 
 if not exist ACTUAL.TXT (
     echo ACTUAL.TXT was not created!
@@ -27,6 +30,9 @@ if not exist ACTUAL.TXT (
 fc ACTUAL.TXT EXPECTED.TXT > nul
 if errorlevel 1 (
     echo [FAIL] Output does not match expected!
+    echo --- ACTUAL OUTPUT ---
+    type ACTUAL.TXT
+    echo ----------------------
     exit /b 1
 ) else (
     echo [PASS] Test passed!
