@@ -1,8 +1,8 @@
 package flashycard;
 
 import flashycard.command.Command;
+import flashycard.exceptions.CardNotFoundException;
 import flashycard.exceptions.CorruptedDataException;
-import flashycard.exceptions.InvalidArgumentException;
 import flashycard.exceptions.InvalidCommandException;
 import flashycard.model.KnowledgeBase;
 import flashycard.parser.Parser;
@@ -19,24 +19,28 @@ public class FlashyCard {
         storage = new Storage(filePath);
         try {
             knowledgeBase = storage.load();
-        } catch (CorruptedDataException e){
+        } catch (CorruptedDataException e) {
             ui.showError("Data file corrupted. starting with an empty base.");
             knowledgeBase = new KnowledgeBase();
         }
     }
 
-    public void run(){
+    public void run() {
         ui.showWelcome();
         boolean isExit = false;
 
-        while (!isExit){
+        while (!isExit) {
             try {
                 String fullCommand = ui.readCommand();
                 Command c = Parser.parse(fullCommand);
                 c.execute(knowledgeBase, ui, storage);
                 isExit = c.isExit();
-            } catch (InvalidCommandException e){
+            } catch (InvalidCommandException e) {
                 ui.showError(e.getMessage());
+            } catch (CardNotFoundException e) {
+                ui.showError(e.getMessage());
+            } catch (Exception e) {
+                ui.showError("An unexpected error has occurred");
             }
         }
         ui.showExitMessage();
