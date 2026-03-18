@@ -47,3 +47,28 @@ checkstyle {
 run{
     standardInput = System.in
 }
+
+task runIOTest(type: JavaExec) {
+    group = "Verification"
+    description = "Runs the app with input.txt and compares ACTUAL.txt to EXPECTED.txt"
+
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'flashycard.FlashyCard'
+
+    standardInput = new FileInputStream(file("text-ui-test/input.txt"))
+    standardOutput = new FileOutputStream(file("text-ui-test/ACTUAL.txt"))
+
+    doLast {
+        def expectedFile = file("text-ui-test/EXPECTED.txt")
+        def actualFile = file("text-ui-test/ACTUAL.txt")
+
+        def expectedText = expectedFile.text.trim().replace("\r\n", "\n")
+        def actualText = actualFile.text.trim().replace("\r\n", "\n")
+
+        if (expectedText == actualText) {
+            println "✅ TEST PASSED: ACTUAL.txt matches EXPECTED.txt"
+        } else {
+            throw new GradleException("❌ TEST FAILED: Output does not match EXPECTED.txt!")
+        }
+    }
+}

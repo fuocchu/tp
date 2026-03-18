@@ -1,7 +1,7 @@
 package flashycard.parser;
 
 import flashycard.command.Command;
-import flashycard.command.DummyCommand;
+import flashycard.command.ExitCommand;
 import flashycard.exceptions.InvalidArgumentException;
 
 public class ExitCommandParser extends CommandParser {
@@ -13,7 +13,7 @@ public class ExitCommandParser extends CommandParser {
     public Command parse(String fullCommand) throws InvalidArgumentException {
         this.match(fullCommand);
 
-        return new DummyCommand(); // TODO: return the correct class
+        return new ExitCommand();
     }
 
 }

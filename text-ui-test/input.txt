@@ -1,1 +1,2 @@
-James Gosling
+add q/why is the sky blue? a/its blue
+exit

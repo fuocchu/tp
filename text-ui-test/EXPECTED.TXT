@@ -1,0 +1,8 @@
+------------------------------------------------
+   FlashyCard - Your Command Line Study Buddy
+------------------------------------------------
+Available commands: add, list, view, flip, delete, exit
+> Got it. I've added this card:
+  [1] Q: why is the sky blue?
+> Bye! Hope to see you again soon!
+------------------------------------------------
