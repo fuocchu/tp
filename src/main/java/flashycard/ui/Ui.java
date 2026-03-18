@@ -23,7 +23,7 @@ public class Ui {
 
     public String readCommand() {
         System.out.print(PREFIX);
-        if (scanner.hasNextLine()) {
+        if (!scanner.hasNextLine()) {
             return null;
         }
         return scanner.nextLine().trim();
