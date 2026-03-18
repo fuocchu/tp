@@ -2,8 +2,8 @@ package flashycard.parser;
 
 import java.util.regex.Matcher;
 
+import flashycard.command.AddCommand;
 import flashycard.command.Command;
-import flashycard.command.DummyCommand;
 import flashycard.exceptions.InvalidArgumentException;
 
 public class AddCommandParser extends CommandParser {
@@ -18,7 +18,7 @@ public class AddCommandParser extends CommandParser {
         String question = matches.group("question").trim();
         String answer = matches.group("answer").trim();
 
-        return new DummyCommand(question, answer); // TODO: return the correct class
+        return new AddCommand(question, answer);
     }
 
 }
