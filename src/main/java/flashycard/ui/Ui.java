@@ -23,10 +23,10 @@ public class Ui {
 
     public String readCommand() {
         System.out.print(PREFIX);
-        if (scanner.hasNextLine()) {
-            return scanner.nextLine().trim();
+        if (!scanner.hasNextLine()) {
+            return null;
         }
-        return "";
+        return scanner.nextLine().trim();
     }
 
     public void showAddedMessage(Card card) {
