@@ -10,28 +10,31 @@ if errorlevel 1 (
     exit /b 1
 )
 
-cd build\libs
-set jarloc=
-for /f "tokens=*" %%a in ('dir /b *.jar') do set jarloc=%%a
-
-cd ..\..\text-ui-test
-
-
-type input.txt | java -jar ..\build\libs\%jarloc% > ACTUAL.TXT 2>nul
 
 timeout /t 5 /nobreak >nul
 
-for %%A in (ACTUAL.TXT) do if %%~zA equ 0 (
-    echo [ERROR] ACTUAL.TXT is empty. The Windows pipe failed.
+cd build\libs
+set "TARGET_JAR="
+for /f "tokens=*" %%a in ('dir /b *.jar') do set "TARGET_JAR=%%a"
+
+
+cd ..\..\text-ui-test
+if exist ACTUAL.TXT del /f /q ACTUAL.TXT
+
+echo Running Java...
+type input.txt | java -jar "..\build\libs\%TARGET_JAR%" > ACTUAL.TXT 2>&1
+
+timeout /t 3 /nobreak >nul
+
+if not exist ACTUAL.TXT (
+    echo [ERROR] ACTUAL.TXT was never created.
     exit /b 1
 )
 
 fc ACTUAL.TXT EXPECTED.TXT > nul
 if errorlevel 1 (
     echo [FAIL] Output does not match expected!
-    echo --- ACTUAL OUTPUT ---
     type ACTUAL.TXT
-    echo ----------------------
     exit /b 1
 ) else (
     echo [PASS] Test passed!
