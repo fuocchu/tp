@@ -28,8 +28,9 @@ public class FlashyCard {
         boolean isExit = false;
 
         while (!isExit) {
+            String fullCommand = null;
             try {
-                String fullCommand = ui.readCommand();
+                fullCommand = ui.readCommand();
 
                 // If readCommand returns null, the input file is finished
                 if (fullCommand == null) {
@@ -48,7 +49,7 @@ public class FlashyCard {
                 c.execute(knowledgeBase, ui, storage);
                 isExit = c.isExit();
             } catch (Exception e) {
-                ui.showError(e.getMessage());
+                ui.showError(e.getMessage() + ": [" + fullCommand + "]");
             }
         }
         ui.showExitMessage();
