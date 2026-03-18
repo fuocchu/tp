@@ -15,7 +15,7 @@ cd ..\..\text-ui-test
 set "TEMP_OUT=RESULT_%RANDOM%.txt"
 
 echo [RUNNING] Testing with %TARGET_JAR%...
-powershell -Command "Get-Content input.txt -Raw | java -Dfile.encoding=UTF-8 -jar '..\build\libs\%TARGET_JAR%' | Out-File -FilePath '%TEMP_OUT%' -Encoding ascii"
+powershell -Command "Get-Content input.txt | java -jar '..\build\libs\%TARGET_JAR%' | Out-File -FilePath '%TEMP_OUT%' -Encoding ascii"
 
 timeout /t 2 /nobreak >nul
 
