@@ -1,6 +1,7 @@
 package flashycard.parser;
 
 import flashycard.command.Command;
+import flashycard.command.ListCommand;
 import flashycard.exceptions.InvalidArgumentException;
 import org.junit.jupiter.api.Test;
 
@@ -13,16 +14,14 @@ public class ListCommandParserTest {
     void testParse_validListCommand_returnsCommand() throws InvalidArgumentException {
         ListCommandParser parser = new ListCommandParser();
         Command command = parser.parse("list");
-        // TODO: Change to specific command type
-        assertTrue(command instanceof Command);
+        assertTrue(command instanceof ListCommand);
     }
 
     @Test
     void testParse_validListCommandWithWhitespace_returnsCommand() throws InvalidArgumentException {
         ListCommandParser parser = new ListCommandParser();
         Command command = parser.parse("  list  ");
-        // TODO: Change to specific command type
-        assertTrue(command instanceof Command);
+        assertTrue(command instanceof ListCommand);
     }
 
     @Test
