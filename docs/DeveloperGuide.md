@@ -6,8 +6,27 @@
 
 ## Design & implementation
 
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
+## Storage Component
 
+### Overview
+The `Storage` component is responsible for persisting and retrieving application data from the local file system. It ensures that all `Card` objects in the `KnowledgeBase` are saved to disk and can be reconstructed when the application restarts.
+### Implementation
+
+The `Storage` class uses a simple line-based text format to store data. Each `Card` is serialized into a single line using the following format:
+`id | question | answer`
+#### Save Operation
+- Retrieve all cards from `KnowledgeBase`
+- Convert each card into a string format
+- Escape special characters (`|`)
+- Write each card as a line into the file
+
+#### Load Operation
+- Read file line by line
+- Skip empty lines
+- Split each line into 3 parts (id, question, answer)
+- Validate data format
+- Reconstruct `Card` objects
+- Add cards to `KnowledgeBase`
 
 ## Product scope
 ### Target user profile

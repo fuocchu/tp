@@ -46,6 +46,7 @@ checkstyle {
 
 run{
     standardInput = System.in
+    enableAssertions = true
 }
 
 task runIOTest(type: JavaExec) {
