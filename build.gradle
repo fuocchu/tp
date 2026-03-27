@@ -19,8 +19,6 @@ dependencies {
 test {
     useJUnitPlatform()
     
-    finalizedBy jacocoTestReport
-
     testLogging {
         events "passed", "skipped", "failed"
         showExceptions true
