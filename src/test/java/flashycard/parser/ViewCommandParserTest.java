@@ -1,6 +1,7 @@
 package flashycard.parser;
 
 import flashycard.command.Command;
+import flashycard.command.ViewCommand;
 import flashycard.exceptions.InvalidArgumentException;
 import org.junit.jupiter.api.Test;
 
@@ -13,16 +14,14 @@ public class ViewCommandParserTest {
     void testParse_validId_returnsCommand() throws InvalidArgumentException {
         ViewCommandParser parser = new ViewCommandParser();
         Command command = parser.parse("view 42");
-        // TODO: Change to specific command type
-        assertTrue(command instanceof Command);
+        assertTrue(command instanceof ViewCommand);
     }
 
     @Test
     void testParse_validIdWithSpaces_returnsCommand() throws InvalidArgumentException {
         ViewCommandParser parser = new ViewCommandParser();
         Command command = parser.parse("view    7   ");
-        // TODO: Change to specific command type
-        assertTrue(command instanceof Command);
+        assertTrue(command instanceof ViewCommand);
     }
 
     @Test
