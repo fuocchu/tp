@@ -1,6 +1,7 @@
 package flashycard.command;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -54,9 +55,7 @@ public class AddCommandTest {
 
         AddCommand addCommand = new AddCommand("Q", "A");
 
-
         addCommand.execute(kb, ui, storage);
-
 
         assertTrue(Files.exists(tempFile), "The storage file should be created on disk.");
 
@@ -64,4 +63,11 @@ public class AddCommandTest {
         assertTrue(content.contains("Q"), "Storage file should contain the question.");
         assertTrue(content.contains("A"), "Storage file should contain the answer.");
     }
+
+    @Test
+    public void isExit_returnsFalse() {
+        AddCommand addCommand = new AddCommand("Q", "A");
+        assertFalse(addCommand.isExit());
+    }
+
 }

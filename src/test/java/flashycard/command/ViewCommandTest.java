@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ViewCommandTest {
@@ -50,4 +51,11 @@ public class ViewCommandTest {
         kb = new KnowledgeBase();
         assertThrows(CardNotFoundException.class, () -> viewCommand.execute(kb, ui, storage));
     }
+
+    @Test
+    public void isExit_returnsFalse() {
+        ViewCommand command = new ViewCommand(1);
+        assertFalse(command.isExit());
+    }
+
 }

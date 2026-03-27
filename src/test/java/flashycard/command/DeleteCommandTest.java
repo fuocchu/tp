@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class DeleteCommandTest {
@@ -49,5 +50,11 @@ public class DeleteCommandTest {
         DeleteCommand deleteCommand = new DeleteCommand(1);
         kb = new KnowledgeBase();
         assertThrows(CardNotFoundException.class, () -> deleteCommand.execute(kb, ui, storage));
+    }
+
+    @Test
+    public void isExit_returnsFalse() {
+        DeleteCommand command = new DeleteCommand(1);
+        assertFalse(command.isExit());
     }
 }
