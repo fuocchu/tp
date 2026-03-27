@@ -38,15 +38,16 @@ public class DeleteCommandTest {
 
     @Test
     void execute_multipleCards_deletesCorrectCard() throws CardNotFoundException {
-        kb.addCard(new Card("Question 1", "Answer 1"));
-        kb.addCard(new Card("Question 2", "Answer 2"));
-        DeleteCommand deleteCommand = new DeleteCommand(1);
+        kb.addCard(new Card(4, "Question 1", "Answer 1"));
+        kb.addCard(new Card(5, "Question 2", "Answer 2"));
+        DeleteCommand deleteCommand = new DeleteCommand(5);
         assertDoesNotThrow(() -> deleteCommand.execute(kb, ui, storage));
     }
 
     @Test
     void execute_emptyKnowledgeBase_throwsCardNotFoundException() {
         DeleteCommand deleteCommand = new DeleteCommand(1);
+        kb = new KnowledgeBase();
         assertThrows(CardNotFoundException.class, () -> deleteCommand.execute(kb, ui, storage));
     }
 }
