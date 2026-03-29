@@ -7,12 +7,20 @@ import flashycard.storage.Storage;
 import flashycard.ui.Ui;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
+import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class DeleteCommandTest {
+
+    @TempDir
+    Path tempDir;
+
     private KnowledgeBase kb;
     private Ui ui;
     private Storage storage;
@@ -21,14 +29,17 @@ public class DeleteCommandTest {
     void setUp() {
         kb = new KnowledgeBase();
         ui = new Ui();
+        String tempPath = tempDir.resolve("test_del.txt").toString();
         storage = null;
     }
 
     @Test
     void execute_validCardId_deletesCard() throws CardNotFoundException {
-        kb.addCard(new Card(1, "What is Java?", "A programming language."));
+        kb.addCard(new Card(1, "What is Java?", "A programming language.", "Programming"));
         DeleteCommand deleteCommand = new DeleteCommand(1);
         assertDoesNotThrow(() -> deleteCommand.execute(kb, ui, storage));
+
+        assertEquals(0, kb.getSize(), "KnowledgeBase should be empty after deletion.");
     }
 
     @Test
@@ -39,10 +50,13 @@ public class DeleteCommandTest {
 
     @Test
     void execute_multipleCards_deletesCorrectCard() throws CardNotFoundException {
-        kb.addCard(new Card(4, "Question 1", "Answer 1"));
-        kb.addCard(new Card(5, "Question 2", "Answer 2"));
+        kb.addCard(new Card(4, "Question 1", "Answer 1", "Tag 1"));
+        kb.addCard(new Card(5, "Question 2", "Answer 2", "Tag 2"));
         DeleteCommand deleteCommand = new DeleteCommand(5);
         assertDoesNotThrow(() -> deleteCommand.execute(kb, ui, storage));
+        assertEquals(1, kb.getSize());
+        assertThrows(CardNotFoundException.class, () -> kb.getCardById(5));
+        assertEquals("Question 1", kb.getCardById(4).getQuestion());
     }
 
     @Test

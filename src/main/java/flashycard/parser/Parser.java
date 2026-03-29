@@ -11,7 +11,8 @@ public class Parser {
         new ExitCommandParser(),
         new FlipCommandParser(),
         new ListCommandParser(),
-        new ViewCommandParser()
+        new ViewCommandParser(),
+        new TagCommandParser()
     };
 
     public static Command parse(String fullCommand) throws InvalidCommandException, InvalidArgumentException {

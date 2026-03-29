@@ -56,7 +56,8 @@ public class Storage {
 
                 String question = card.getQuestion().replace("|", "\\|");
                 String answer = card.getAnswer().replace("|", "\\|");
-                String line = card.getId() + "|" + question + "|" + answer;
+                String tag = card.getTag().replace("|", "\\|");
+                String line = card.getId() + "|" + question + "|" + answer + "|" + tag;
 
                 writer.write(line);
                 writer.newLine();
@@ -86,9 +87,9 @@ public class Storage {
                     continue;
                 }
 
-                String[] parts = line.split("(?<!\\\\)\\|", 3);
+                String[] parts = line.split("(?<!\\\\)\\|", 4);
 
-                if (parts.length != 3) {
+                if (parts.length < 3) {
                     logger.warning("Corrupted line at " + lineNumber + ": " + line);
                     throw new CorruptedDataException("Invalid line in storage file: " + line);
                 }
@@ -103,14 +104,15 @@ public class Storage {
 
                 String question = parts[1].replace("\\|", "|");
                 String answer = parts[2].replace("\\|", "|");
+                String tag = (parts.length == 4) ? parts[3].replace("\\|", "|") : "none";
 
-                Card card = new Card(id, question, answer);
+                Card card = new Card(id, question, answer,tag);
                 kb.addCard(card);
             }
 
             logger.info("Loaded " + kb.getSize() + " cards successfully.");
 
-        } catch (IOException e) {
+        } catch (IOException | NumberFormatException e) {
             logger.log(Level.SEVERE, "Failed to load storage file", e);
             throw new CorruptedDataException("Failed to load storage file: " + e.getMessage());
         }

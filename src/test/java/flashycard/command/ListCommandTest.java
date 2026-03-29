@@ -31,8 +31,8 @@ public class ListCommandTest {
 
     @Test
     void execute_withCards_executesWithoutError() {
-        kb.addCard(new Card("What is Java?", "A programming language."));
-        kb.addCard(new Card("What is JUnit?", "A testing framework."));
+        kb.addCard(new Card(1, "What is Java?", "A programming language.", "Programming"));
+        kb.addCard(new Card(2, "What is JUnit?", "A testing framework.", "Testing"));
 
         listCommand.execute(kb, ui, storage);
         assertFalse(listCommand.isExit());

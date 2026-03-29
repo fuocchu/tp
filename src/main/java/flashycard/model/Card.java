@@ -7,17 +7,20 @@ public class Card {
     private final int id;
     private final String question;
     private final String answer;
+    private final String tag;
 
     public Card(String question, String answer) {
         this.id = idCounter++;
         this.question = question;
         this.answer = answer;
+        this.tag = "none";
     }
 
-    public Card(int id, String question, String answer) {
+    public Card(int id, String question, String answer, String tag) {
         this.id = id;
         this.question = question;
         this.answer = answer;
+        this.tag = tag;
 
         // syncing the internal id from loaded from database
         if (id >= idCounter) {
@@ -36,5 +39,7 @@ public class Card {
     public String getAnswer() {
         return answer;
     }
+
+    public String getTag() { return tag; }
 
 }

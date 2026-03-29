@@ -29,7 +29,7 @@ public class FlipCommandTest {
 
     @Test
     public void execute_validCard_success() throws CardNotFoundException {
-        Card testCard = new Card(1, "Question", "Answer");
+        Card testCard = new Card(1, "Question", "Answer", "Tag1" );
         knowledgeBase.addCard(testCard);
         flipCommand = new FlipCommand(1);
         flipCommand.execute(knowledgeBase, ui, storage);

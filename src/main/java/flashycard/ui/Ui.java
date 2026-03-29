@@ -31,7 +31,7 @@ public class Ui {
 
     public void showAddedMessage(Card card) {
         System.out.println("Got it. I've added this card:");
-        System.out.println("  [" + card.getId() + "] Q: " + card.getQuestion());
+        System.out.println("  [" + card.getId() + "] Q: " + card.getQuestion() + " [" + card.getTag() + "]");
     }
 
     public void showQuestion(Card card) {
@@ -54,10 +54,14 @@ public class Ui {
         } else {
             System.out.println("Here are the cards in your collection:");
             for (Card card : cards) {
-                System.out.println(card.getId() + ": " + card.getQuestion());
+                System.out.println(card.getId() + ": " + card.getQuestion() + " [" + card.getTag() + "]");
             }
             System.out.println("Total: " + knowledgeBase.getSize() + " cards.");
         }
+    }
+
+    public void showTaggedMessage(Card card) {
+        System.out.println("Tag added to card #" + card.getId() + ": [" + card.getTag() + "]");
     }
 
     public void showError(String message) {

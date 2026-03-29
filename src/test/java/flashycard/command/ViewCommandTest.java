@@ -22,7 +22,7 @@ public class ViewCommandTest {
         kb = new KnowledgeBase();
         ui = new Ui();
         storage = null;
-        kb.addCard(new Card(1, "What is Java?", "A programming language."));
+        kb.addCard(new Card(1, "What is Java?", "A programming language.", "Programming"));
     }
 
     @Test
@@ -39,9 +39,9 @@ public class ViewCommandTest {
 
     @Test
     void execute_multipleCards_viewsCorrectCard() throws CardNotFoundException {
-        kb.addCard(new Card("Question 1", "Answer 1"));
-        kb.addCard(new Card("Question 2", "Answer 2"));
-        ViewCommand viewCommand = new ViewCommand(1);
+        kb.addCard(new Card(2, "Question 1", "Answer 1", "Tag 1"));
+        kb.addCard(new Card(3, "Question 2", "Answer 2", "Tag 2"));
+        ViewCommand viewCommand = new ViewCommand(3);
         assertDoesNotThrow(() -> viewCommand.execute(kb, ui, storage));
     }
 

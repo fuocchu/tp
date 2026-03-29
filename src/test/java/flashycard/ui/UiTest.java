@@ -29,7 +29,7 @@ public class UiTest {
 
     @Test
     public void testShowAddedMessage() {
-        Card card = new Card(1, "What is abc?", "123");
+        Card card = new Card(1, "What is abc?", "123", "alphabet");
         ui.showAddedMessage(card);
         String output = outputStream.toString();
         assertTrue(output.contains("1"));
@@ -37,7 +37,7 @@ public class UiTest {
 
     @Test
     public void testShowQuestion() {
-        Card card = new Card(2, "What is abc?", "123");
+        Card card = new Card(2, "What is abc?", "123", "alphabet");
         ui.showQuestion(card);
         String output = outputStream.toString();
         assertTrue(output.contains("2"));
@@ -46,7 +46,7 @@ public class UiTest {
 
     @Test
     public void testShowAnswer() {
-        Card card = new Card(2, "What is abc?", "123");
+        Card card = new Card(2, "What is abc?", "123", "alphabet");
         ui.showAnswer(card);
         String output = outputStream.toString();
         assertTrue(output.contains("123"));
@@ -54,10 +54,30 @@ public class UiTest {
 
     @Test
     public void testShowDeletedMessage() {
-        Card card = new Card(2, "What is abc?", "123");
+        Card card = new Card(2, "What is abc?", "123", "alphabet");
         ui.showDeletedMessage(card);
         String output = outputStream.toString();
         assertTrue(output.contains("2"));
+    }
+
+    @Test
+    public void testShowTaggedMessage() {
+        Card card = new Card(1, "Question", "Answer", "Science");
+        ui.showTaggedMessage(card);
+
+        String output = outputStream.toString();
+        assertTrue(output.contains("#1"), "Output should contain the card ID");
+        assertTrue(output.contains("Science"), "Output should contain the new tag name");
+    }
+
+    @Test
+    public void testShowList_showsTags() {
+        flashycard.model.KnowledgeBase kb = new flashycard.model.KnowledgeBase();
+        kb.addCard(new Card(1, "Java?", "Yes", "Coding"));
+
+        ui.showList(kb);
+        String output = outputStream.toString();
+        assertTrue(output.contains("Coding"), "The list view should display the card's tag");
     }
 
     @Test

@@ -35,4 +35,44 @@ class StorageTest {
         assertEquals("A1!", loadedCard.getAnswer());
         file.delete();
     }
+
+    @Test
+    void storage_canSaveAndLoadWithTags() throws Exception {
+        File file = new File(testFilePath);
+        if (file.exists()) {
+            file.delete();
+        }
+
+        Storage storage = new Storage(testFilePath);
+        KnowledgeBase kb = new KnowledgeBase();
+
+        Card card = new Card(1, "What is Java?", "A language", "Programming");
+        kb.addCard(card);
+
+        storage.save(kb);
+
+        String fileContent = Files.readString(file.toPath());
+        assertTrue(fileContent.contains("Programming"), "File should store the tag string");
+
+        KnowledgeBase loadedKb = storage.load();
+        Card loadedCard = loadedKb.getCardById(1);
+        assertEquals("Programming", loadedCard.getTag(), "Loaded tag should match original");
+
+        file.delete();
+    }
+
+    @Test
+    void storage_handlesLegacyDataWithoutTags() throws Exception {
+        File file = new File(testFilePath);
+        String legacyLine = "99|Old Question|Old Answer\n";
+        Files.writeString(file.toPath(), legacyLine);
+
+        Storage storage = new Storage(testFilePath);
+        KnowledgeBase loadedKb = storage.load();
+
+        Card legacyCard = loadedKb.getCardById(99);
+        assertEquals("none", legacyCard.getTag(), "Legacy data should default tag to 'none'");
+
+        file.delete();
+    }
 }

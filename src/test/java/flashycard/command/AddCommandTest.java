@@ -48,6 +48,7 @@ public class AddCommandTest {
         Card addedCard = kb.getAllCards().iterator().next();
         assertEquals(question, addedCard.getQuestion());
         assertEquals(answer, addedCard.getAnswer());
+        assertEquals("none", addedCard.getTag(), "New cards should default to 'none' tag.");
     }
 
     @Test
@@ -62,6 +63,7 @@ public class AddCommandTest {
         String content = Files.readString(tempFile);
         assertTrue(content.contains("Q"), "Storage file should contain the question.");
         assertTrue(content.contains("A"), "Storage file should contain the answer.");
+        assertTrue(content.contains("|Q|A|none"), "Storage should save the default 'none' tag.");
     }
 
     @Test

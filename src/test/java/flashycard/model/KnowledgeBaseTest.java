@@ -18,8 +18,8 @@ public class KnowledgeBaseTest {
     @BeforeEach
     void setUp() {
         knowledgeBase = new KnowledgeBase();
-        card1 = new Card(1, "Question 1", "Answer 1");
-        card2 = new Card(2, "Question 2", "Answer 2");
+        card1 = new Card(1, "Question 1", "Answer 1", "Tag 1");
+        card2 = new Card(2, "Question 2", "Answer 2", "Tag 2");
     }
 
     @Test
