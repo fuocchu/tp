@@ -59,6 +59,20 @@ class ParserTest {
     }
 
     @Test
+    void parse_validTagCommand_returnsTagCommand() throws Exception {
+        String command = "tag 1 t/Coding";
+        Command result = Parser.parse(command);
+        assertTrue(result instanceof Command);
+    }
+
+    @Test
+    void parse_validTagsCommand_returnsTagsCommand() throws Exception {
+        String command = "tags";
+        Command result = Parser.parse(command);
+        assertTrue(result instanceof Command);
+    }
+
+    @Test
     void parse_invalidCommand_throwsInvalidCommandException() {
         String command = "unknowncommand";
         assertThrows(InvalidCommandException.class, () -> Parser.parse(command));

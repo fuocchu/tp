@@ -5,6 +5,10 @@ import java.util.HashMap;
 
 import flashycard.exceptions.CardNotFoundException;
 
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
+
 public class KnowledgeBase {
     private HashMap<Integer, Card> cards;
 
@@ -47,5 +51,11 @@ public class KnowledgeBase {
 
     public Collection<Card> getAllCards() {
         return cards.values();
+    }
+
+    public Set<String> getUniqueTags() {
+        return cards.values().stream()
+                .map(Card::getTag)
+                .collect(Collectors.toCollection(TreeSet::new));
     }
 }

@@ -16,7 +16,7 @@ public abstract class CommandParser {
         if (argsRegex == null || argsRegex.trim().isEmpty()) {
             this.ARGS_REGEX = Pattern.compile(String.format("^%s\\s*$", prefix));
         } else {
-            this.ARGS_REGEX = Pattern.compile(String.format("^%s\\s+%s", prefix, argsRegex));
+            this.ARGS_REGEX = Pattern.compile(String.format("^%s\\s*%s$", prefix, argsRegex));
         }
     }
 

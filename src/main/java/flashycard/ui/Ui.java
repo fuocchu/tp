@@ -64,6 +64,35 @@ public class Ui {
         System.out.println("Tag added to card #" + card.getId() + ": [" + card.getTag() + "]");
     }
 
+    public void showTagsList(java.util.Set<String> tags) {
+        if (tags.isEmpty()) {
+            System.out.println("Your knowledge base has no tags.");
+            return;
+        }
+        boolean hasNone = tags.contains("none");
+        int categoryCount = hasNone ? tags.size() - 1 : tags.size();
+
+        if (categoryCount > 0) {
+            System.out.println("Here are your current categories:");
+            int index = 1;
+            for (String tag : tags) {
+                if (!tag.equals("none")) {
+                    System.out.println(index + ". " + tag);
+                    index++;
+                }
+            }
+        } else {
+            System.out.println("No custom categories created yet.");
+        }
+
+        if (hasNone) {
+            System.out.println("------------------------------------------------");
+            System.out.println(" * Uncategorized cards [none]");
+        }
+
+        System.out.println("Total: " + categoryCount + " categories.");
+    }
+
     public void showError(String message) {
         System.out.println("ERROR: " + message);
     }

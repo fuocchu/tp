@@ -7,7 +7,7 @@ import flashycard.exceptions.InvalidArgumentException;
 
 public class TagCommandParser extends CommandParser {
     public TagCommandParser() {
-        super("tag", "(?<id>\\d+)\\s+t/(?<tag>.+)");
+        super("tag", "(?<id>\\d+)\\s+t/(?<tag>.+)\\s*");
     }
 
     @Override
