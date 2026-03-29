@@ -13,7 +13,8 @@ public class Parser {
         new ListCommandParser(),
         new ViewCommandParser(),
         new TagsCommandParser(),
-        new TagCommandParser()
+        new TagCommandParser(),
+        new FindCommandParser()
     };
 
     public static Command parse(String fullCommand) throws InvalidCommandException, InvalidArgumentException {
@@ -28,7 +29,6 @@ public class Parser {
                 return p.parse(fullCommand);
             }
         }
-
         throw new InvalidCommandException("Unrecognized command");
     }
 }

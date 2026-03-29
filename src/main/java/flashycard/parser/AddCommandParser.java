@@ -20,5 +20,4 @@ public class AddCommandParser extends CommandParser {
 
         return new AddCommand(question, answer);
     }
-
 }

@@ -93,6 +93,18 @@ public class Ui {
         System.out.println("Total: " + categoryCount + " categories.");
     }
 
+    public void showSearchResults(java.util.List<Card> results, String keyword) {
+        if (results.isEmpty()) {
+            System.out.println("No cards found matching: '" + keyword + "'");
+            return;
+        }
+
+        System.out.println("Found " + results.size() + " card(s) matching '" + keyword + "':");
+        for (Card card : results) {
+            System.out.println(card.getId() + ": Q: " + card.getQuestion() + " | A: " + card.getAnswer());
+        }
+    }
+
     public void showError(String message) {
         System.out.println("ERROR: " + message);
     }
