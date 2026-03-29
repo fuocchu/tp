@@ -39,7 +39,9 @@ class StorageTest {
     @Test
     void storage_canSaveAndLoadWithTags() throws Exception {
         File file = new File(testFilePath);
-        if (file.exists()) file.delete();
+        if (file.exists()) {
+            file.delete();
+        }
 
         Storage storage = new Storage(testFilePath);
         KnowledgeBase kb = new KnowledgeBase();
