@@ -37,6 +37,10 @@ public class FindCommand extends Command {
 
         ui.showSearchResults(results, keyword);
     }
-    public String getKeyword() { return keyword; }
-    public String getScope() { return scope; }
+    public String getKeyword() {
+        return keyword;
+    }
+    public String getScope() {
+        return scope;
+    }
 }
