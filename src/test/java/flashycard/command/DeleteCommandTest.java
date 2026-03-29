@@ -53,7 +53,7 @@ public class DeleteCommandTest {
         assertDoesNotThrow(() -> deleteCommand.execute(kb, ui, storage));
         assertEquals(1, kb.getSize());
         assertThrows(CardNotFoundException.class, () -> kb.getCardById(5));
-        assertEquals("Q1", kb.getCardById(4).getQuestion());
+        assertEquals("Question 1", kb.getCardById(4).getQuestion());
     }
 
     @Test
