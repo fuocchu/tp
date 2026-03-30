@@ -47,8 +47,9 @@ public class Storage {
         assert knowledgeBase != null : "KnowledgeBase should not be null";
 
         Collection<Card> cards = knowledgeBase.getAllCards();
+        var testSets = knowledgeBase.getAllTestSets();
 
-        logger.info("Saving " + cards.size() + " cards to storage...");
+        logger.info("Saving " + cards.size() + " cards and " + testSets.size() + " test sets to storage...");
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (Card card : cards) {
@@ -63,10 +64,21 @@ public class Storage {
                 writer.newLine();
             }
 
+            for (java.util.Map.Entry<String, java.util.List<Integer>> entry : testSets.entrySet()) {
+                String setName = entry.getKey().replace("|", "\\|");
+
+                String ids = entry.getValue().stream()
+                        .map(String::valueOf)
+                        .collect(java.util.stream.Collectors.joining(","));
+
+                writer.write("SET:" + setName + "|" + ids);
+                writer.newLine();
+            }
+
             logger.info("Save completed successfully.");
 
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Error saving data", e);
+            logger.log(Level.SEVERE, "Error saving data to file: " + filePath, e);
             throw new RuntimeException("Error saving data: " + e.getMessage(), e);
         }
     }
@@ -84,6 +96,11 @@ public class Storage {
                 lineNumber++;
 
                 if (line.isBlank()) {
+                    continue;
+                }
+
+                if (line.startsWith("SET:")) {
+                    parseAndAddTestSet(line, kb);
                     continue;
                 }
 
@@ -106,7 +123,7 @@ public class Storage {
                 String answer = parts[2].replace("\\|", "|");
                 String tag = (parts.length == 4) ? parts[3].replace("\\|", "|") : "none";
 
-                Card card = new Card(id, question, answer,tag);
+                Card card = new Card(id, question, answer, tag);
                 kb.addCard(card);
             }
 
@@ -119,4 +136,21 @@ public class Storage {
 
         return kb;
     }
+
+    private void parseAndAddTestSet(String line, KnowledgeBase kb) {
+        String content = line.substring(4);
+        String[] parts = content.split("(?<!\\\\)\\|");
+        String setName = parts[0].replace("\\|", "|");
+
+        java.util.List<Integer> ids = new java.util.ArrayList<>();
+
+        if (parts.length > 1 && !parts[1].isBlank()) {
+            ids = java.util.Arrays.stream(parts[1].split(","))
+                    .map(Integer::parseInt)
+                    .collect(java.util.stream.Collectors.toList());
+        }
+
+        kb.addTestSet(setName, ids);
+    }
+
 }

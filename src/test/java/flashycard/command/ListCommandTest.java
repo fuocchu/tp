@@ -1,5 +1,6 @@
 package flashycard.command;
 
+import flashycard.context.SessionContainer;
 import flashycard.model.Card;
 import flashycard.model.KnowledgeBase;
 import flashycard.storage.Storage;
@@ -14,18 +15,20 @@ public class ListCommandTest {
     private Ui ui;
     private Storage storage;
     private ListCommand listCommand;
+    private SessionContainer session;
 
     @BeforeEach
     void setUp() {
         kb = new KnowledgeBase();
         ui = new Ui();
         storage = null;
-        listCommand = new ListCommand();
+        session = new SessionContainer();
+        listCommand = new ListCommand(null);
     }
 
     @Test
     void execute_emptyKnowledgeBase_executesWithoutError() {
-        listCommand.execute(kb, ui, storage);
+        listCommand.execute(kb, ui, storage, session);
         assertFalse(listCommand.isExit());
     }
 
@@ -34,7 +37,7 @@ public class ListCommandTest {
         kb.addCard(new Card(1, "What is Java?", "A programming language.", "Programming"));
         kb.addCard(new Card(2, "What is JUnit?", "A testing framework.", "Testing"));
 
-        listCommand.execute(kb, ui, storage);
+        listCommand.execute(kb, ui, storage, session);
         assertFalse(listCommand.isExit());
     }
 

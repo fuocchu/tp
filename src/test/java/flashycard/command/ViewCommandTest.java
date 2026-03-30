@@ -1,5 +1,6 @@
 package flashycard.command;
 
+import flashycard.context.SessionContainer;
 import flashycard.exceptions.CardNotFoundException;
 import flashycard.model.Card;
 import flashycard.model.KnowledgeBase;
@@ -16,6 +17,7 @@ public class ViewCommandTest {
     private KnowledgeBase kb;
     private Ui ui;
     private Storage storage;
+    private SessionContainer session;
 
     @BeforeEach
     void setUp() {
@@ -28,13 +30,13 @@ public class ViewCommandTest {
     @Test
     void execute_validCardId_displaysCard() throws CardNotFoundException {
         ViewCommand viewCommand = new ViewCommand(1);
-        assertDoesNotThrow(() -> viewCommand.execute(kb, ui, storage));
+        assertDoesNotThrow(() -> viewCommand.execute(kb, ui, storage, session));
     }
 
     @Test
     void execute_invalidCardId_throwsCardNotFoundException() {
         ViewCommand viewCommand = new ViewCommand(999);
-        assertThrows(CardNotFoundException.class, () -> viewCommand.execute(kb, ui, storage));
+        assertThrows(CardNotFoundException.class, () -> viewCommand.execute(kb, ui, storage, session));
     }
 
     @Test
@@ -42,14 +44,14 @@ public class ViewCommandTest {
         kb.addCard(new Card(2, "Question 1", "Answer 1", "Tag 1"));
         kb.addCard(new Card(3, "Question 2", "Answer 2", "Tag 2"));
         ViewCommand viewCommand = new ViewCommand(3);
-        assertDoesNotThrow(() -> viewCommand.execute(kb, ui, storage));
+        assertDoesNotThrow(() -> viewCommand.execute(kb, ui, storage, session));
     }
 
     @Test
     void execute_emptyKnowledgeBase_throwsCardNotFoundException() {
         ViewCommand viewCommand = new ViewCommand(-1);
         kb = new KnowledgeBase();
-        assertThrows(CardNotFoundException.class, () -> viewCommand.execute(kb, ui, storage));
+        assertThrows(CardNotFoundException.class, () -> viewCommand.execute(kb, ui, storage, session));
     }
 
     @Test

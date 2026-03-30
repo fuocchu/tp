@@ -1,5 +1,6 @@
 package flashycard.command;
 
+import flashycard.context.SessionContainer;
 import flashycard.model.Card;
 import flashycard.model.KnowledgeBase;
 import flashycard.storage.Storage;
@@ -18,7 +19,7 @@ public class FindCommand extends Command {
     }
 
     @Override
-    public void execute(KnowledgeBase hb, Ui ui, Storage storage) {
+    public void execute(KnowledgeBase hb, Ui ui, Storage storage, SessionContainer session) {
         List<Card> results = hb.getAllCards().stream()
                 .filter(card -> {
                     boolean inQuestion = card.getQuestion().toLowerCase().contains(keyword);

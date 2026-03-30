@@ -1,5 +1,6 @@
 package flashycard.command;
 
+import flashycard.context.SessionContainer;
 import flashycard.model.Card;
 import flashycard.model.KnowledgeBase;
 import flashycard.storage.Storage;
@@ -15,7 +16,7 @@ public class AddCommand extends Command {
     }
 
     @Override
-    public void execute(KnowledgeBase cards, Ui ui, Storage storage) {
+    public void execute(KnowledgeBase cards, Ui ui, Storage storage, SessionContainer session) {
         Card card = new Card(question, answer);
         cards.addCard(card);
         storage.save(cards);

@@ -1,5 +1,6 @@
 package flashycard.command;
 
+import flashycard.context.SessionContainer;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -19,6 +20,7 @@ public class FlipCommandTest {
     private KnowledgeBase knowledgeBase;
     private Ui ui;
     private Storage storage;
+    private SessionContainer session;
 
     @BeforeEach
     public void setUp() {
@@ -32,13 +34,13 @@ public class FlipCommandTest {
         Card testCard = new Card(1, "Question", "Answer", "Tag1" );
         knowledgeBase.addCard(testCard);
         flipCommand = new FlipCommand(1);
-        flipCommand.execute(knowledgeBase, ui, storage);
+        flipCommand.execute(knowledgeBase, ui, storage, session);
     }
 
     @Test
     public void execute_invalidCard_throwsCardNotFoundException() {
         flipCommand = new FlipCommand(999);
-        assertThrows(CardNotFoundException.class, () -> flipCommand.execute(knowledgeBase, ui, storage));
+        assertThrows(CardNotFoundException.class, () -> flipCommand.execute(knowledgeBase, ui, storage, session));
     }
 
     @Test

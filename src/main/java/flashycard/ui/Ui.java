@@ -4,6 +4,8 @@ import flashycard.model.Card;
 import flashycard.model.KnowledgeBase;
 import java.util.Scanner;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public class Ui {
     private static final String DIVIDER = "------------------------------------------------";
@@ -18,7 +20,7 @@ public class Ui {
         System.out.println(DIVIDER);
         System.out.println("   FlashyCard - Your Command Line Study Buddy");
         System.out.println(DIVIDER);
-        System.out.println("Available commands: add, list, view, flip, delete, exit");
+        System.out.println("Available commands: add, list, view, flip, tag, find, save, test, delete, exit");
     }
 
     public String readCommand() {
@@ -103,6 +105,44 @@ public class Ui {
         for (Card card : results) {
             System.out.println(card.getId() + ": Q: " + card.getQuestion() + " | A: " + card.getAnswer());
         }
+    }
+
+    public void showSaveSetSuccess(String setName, int count) {
+        System.out.println("Successfully saved " + count + " card(s) to test set: [" + setName + "]");
+    }
+
+    public void showTestSets(Map<String, List<Integer>> testSets) {
+        if (testSets.isEmpty()) {
+            System.out.println("No saved test sets found.");
+            return;
+        }
+        System.out.println("Available Test Sets:");
+        testSets.forEach((name, ids) ->
+                System.out.println(" - " + name + " (" + ids.size() + " cards)")
+        );
+    }
+
+    public void showSessionHeader(String sessionName, int total) {
+        System.out.println(DIVIDER);
+        System.out.println("Starting Session: " + sessionName);
+        System.out.println("Total cards to review: " + total);
+        System.out.println("Type any key to see the answer, then 'y' for correct or 'n' for incorrect.");
+        System.out.println(DIVIDER);
+    }
+
+    public void showSessionProgress(int current, int total) {
+        System.out.print("[" + current + "/" + total + "] ");
+    }
+
+    public void showSessionResult(int correct, int total) {
+        System.out.println(DIVIDER);
+        System.out.println("Session Complete!");
+        System.out.println("Score: " + correct + "/" + total);
+        System.out.println(DIVIDER);
+    }
+
+    public void showMessage(String msg) {
+        System.out.println(msg);
     }
 
     public void showError(String message) {

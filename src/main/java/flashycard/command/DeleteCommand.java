@@ -1,5 +1,6 @@
 package flashycard.command;
 
+import flashycard.context.SessionContainer;
 import flashycard.exceptions.CardNotFoundException;
 import flashycard.model.Card;
 import flashycard.model.KnowledgeBase;
@@ -14,7 +15,8 @@ public class DeleteCommand extends Command {
     }
 
     @Override
-    public void execute(KnowledgeBase cards, Ui ui, Storage storage) throws CardNotFoundException {
+    public void execute(KnowledgeBase cards, Ui ui, Storage storage, SessionContainer session)
+            throws CardNotFoundException {
         Card deletedCard = cards.deleteCard(cardId);
         ui.showDeletedMessage(deletedCard);
     }

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import flashycard.context.SessionContainer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -27,6 +28,7 @@ public class TagCommandTest {
     private Ui ui;
     private Storage storage;
     private Path tempFile;
+    private SessionContainer session;
 
     @BeforeEach
     public void setUp() {
@@ -43,7 +45,7 @@ public class TagCommandTest {
         String newTagName = "Geography";
         TagCommand tagCommand = new TagCommand(1, newTagName);
 
-        tagCommand.execute(kb, ui, storage);
+        tagCommand.execute(kb, ui, storage, session);
 
         Card updatedCard = kb.getCardById(1);
         assertEquals(newTagName, updatedCard.getTag(), "The tag should be updated to 'Geography'.");
@@ -55,7 +57,7 @@ public class TagCommandTest {
         String newTagName = "Science";
         TagCommand tagCommand = new TagCommand(1, newTagName);
 
-        tagCommand.execute(kb, ui, storage);
+        tagCommand.execute(kb, ui, storage, session);
 
         String content = Files.readString(tempFile);
         assertTrue(content.contains("Science"), "Storage file should reflect the new tag.");
@@ -66,7 +68,7 @@ public class TagCommandTest {
         TagCommand tagCommand = new TagCommand(99, "Urgent");
 
         assertThrows(CardNotFoundException.class, () -> {
-            tagCommand.execute(kb, ui, storage);
+            tagCommand.execute(kb, ui, storage, session);
         }, "Executing with a non-existent ID should throw CardNotFoundException.");
     }
 
@@ -75,7 +77,7 @@ public class TagCommandTest {
         String trickyTag = "Math|Logic";
         TagCommand tagCommand = new TagCommand(1, trickyTag);
 
-        tagCommand.execute(kb, ui, storage);
+        tagCommand.execute(kb, ui, storage, session);
 
         Card updatedCard = kb.getCardById(1);
         assertEquals("Math|Logic", updatedCard.getTag());

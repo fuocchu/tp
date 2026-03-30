@@ -3,6 +3,7 @@ package flashycard.command;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import flashycard.context.SessionContainer;
 import org.junit.jupiter.api.Test;
 import flashycard.model.KnowledgeBase;
 import flashycard.storage.Storage;
@@ -23,7 +24,9 @@ public class ExitCommandTest {
         Ui ui = new Ui();
         Storage storage = null;
 
-        assertDoesNotThrow(() -> command.execute(cards, ui, storage),
+        SessionContainer session = new SessionContainer();
+
+        assertDoesNotThrow(() -> command.execute(cards, ui, storage, session),
                 "ExitCommand execute should not throw any exception");
     }
 }

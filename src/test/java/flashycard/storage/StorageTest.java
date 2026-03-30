@@ -5,12 +5,23 @@ import flashycard.model.KnowledgeBase;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.nio.file.Files;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class StorageTest {
 
     private final String testFilePath = "test_storage.txt";
+    private File file;
+
+    @org.junit.jupiter.api.BeforeEach
+    void setUp() {
+        file = new File(testFilePath);
+        if (file.exists()) {
+            file.delete();
+        }
+    }
 
     @Test
     void storageCreatesFileAndCanLoadSave() throws Exception {
@@ -59,6 +70,41 @@ class StorageTest {
         assertEquals("Programming", loadedCard.getTag(), "Loaded tag should match original");
 
         file.delete();
+    }
+
+    @Test
+    void storage_handlesEmptyTestSets() throws Exception {
+        Storage storage = new Storage(testFilePath);
+        KnowledgeBase kb = new KnowledgeBase();
+
+        kb.addTestSet("EmptySet", new java.util.ArrayList<>());
+
+        storage.save(kb);
+
+        KnowledgeBase loadedKb = storage.load();
+        assertTrue(loadedKb.getAllTestSets().containsKey("EmptySet"));
+        assertTrue(loadedKb.getAllTestSets().get("EmptySet").isEmpty(),
+                "Empty set should load as an empty list, not null");
+    }
+
+    @Test
+    void storage_escapesPipeCharacters() throws Exception {
+        Storage storage = new Storage(testFilePath);
+        KnowledgeBase kb = new KnowledgeBase();
+
+        Card card = new Card(1, "True | False?", "True", "logic");
+        kb.addCard(card);
+        kb.addTestSet("Logic | Math", List.of(1));
+
+        storage.save(kb);
+
+        String fileContent = Files.readString(file.toPath());
+        assertTrue(fileContent.contains("True \\| False?"), "Pipes in questions should be escaped");
+        assertTrue(fileContent.contains("SET:Logic \\| Math"), "Pipes in set names should be escaped");
+
+        KnowledgeBase loadedKb = storage.load();
+        assertEquals("True | False?", loadedKb.getCardById(1).getQuestion());
+        assertTrue(loadedKb.getAllTestSets().containsKey("Logic | Math"));
     }
 
     @Test

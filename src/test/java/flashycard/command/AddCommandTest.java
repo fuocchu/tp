@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import flashycard.context.SessionContainer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -26,6 +27,7 @@ public class AddCommandTest {
     private Ui ui;
     private Storage storage;
     private Path tempFile;
+    private SessionContainer session;
 
     @BeforeEach
     public void setUp() {
@@ -33,6 +35,7 @@ public class AddCommandTest {
         ui = new Ui();
         tempFile = tempDir.resolve("test_data.txt");
         storage = new Storage(tempFile.toString());
+        session = new SessionContainer();
     }
 
     @Test
@@ -41,7 +44,7 @@ public class AddCommandTest {
         String answer = "The ability of an object to take on many forms.";
         AddCommand addCommand = new AddCommand(question, answer);
 
-        addCommand.execute(kb, ui, storage);
+        addCommand.execute(kb, ui, storage, session);
 
         assertEquals(1, kb.getSize(), "KnowledgeBase should contain exactly one card.");
 
@@ -56,7 +59,7 @@ public class AddCommandTest {
 
         AddCommand addCommand = new AddCommand("Q", "A");
 
-        addCommand.execute(kb, ui, storage);
+        addCommand.execute(kb, ui, storage, session);
 
         assertTrue(Files.exists(tempFile), "The storage file should be created on disk.");
 

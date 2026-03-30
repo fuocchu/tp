@@ -1,5 +1,6 @@
 package flashycard.command;
 
+import flashycard.context.SessionContainer;
 import flashycard.model.Card;
 import flashycard.model.KnowledgeBase;
 import flashycard.storage.Storage;
@@ -14,6 +15,7 @@ public class TagsCommandTest {
     private Ui ui;
     private Storage storage;
     private TagsCommand tagsCommand;
+    private SessionContainer session;
 
     @BeforeEach
     void setUp() {
@@ -25,7 +27,7 @@ public class TagsCommandTest {
 
     @Test
     void execute_emptyKnowledgeBase_executesWithoutError() {
-        tagsCommand.execute(kb, ui, storage);
+        tagsCommand.execute(kb, ui, storage, session);
         assertFalse(tagsCommand.isExit());
     }
 
@@ -35,7 +37,7 @@ public class TagsCommandTest {
         kb.addCard(new Card(2, "Q2", "A2", "none"));
         kb.addCard(new Card(3, "Q3", "A3", "Python"));
 
-        tagsCommand.execute(kb, ui, storage);
+        tagsCommand.execute(kb, ui, storage, session);
         assertFalse(tagsCommand.isExit());
     }
 
@@ -43,7 +45,7 @@ public class TagsCommandTest {
     void execute_onlyNoneTag_executesWithoutError() {
         kb.addCard(new Card(1, "Q1", "A1", "none"));
 
-        tagsCommand.execute(kb, ui, storage);
+        tagsCommand.execute(kb, ui, storage, session);
         assertFalse(tagsCommand.isExit());
     }
 

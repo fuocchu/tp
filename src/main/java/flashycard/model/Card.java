@@ -40,6 +40,7 @@ public class Card {
         return answer;
     }
 
-    public String getTag() { return tag; }
-
+    public String getTag() {
+        return tag;
+    }
 }

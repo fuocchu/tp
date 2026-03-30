@@ -1,5 +1,6 @@
 package flashycard.command;
 
+import flashycard.context.SessionContainer;
 import flashycard.exceptions.CardNotFoundException;
 import flashycard.model.Card;
 import flashycard.model.KnowledgeBase;
@@ -24,6 +25,7 @@ public class DeleteCommandTest {
     private KnowledgeBase kb;
     private Ui ui;
     private Storage storage;
+    private SessionContainer session;
 
     @BeforeEach
     void setUp() {
@@ -37,7 +39,7 @@ public class DeleteCommandTest {
     void execute_validCardId_deletesCard() throws CardNotFoundException {
         kb.addCard(new Card(1, "What is Java?", "A programming language.", "Programming"));
         DeleteCommand deleteCommand = new DeleteCommand(1);
-        assertDoesNotThrow(() -> deleteCommand.execute(kb, ui, storage));
+        assertDoesNotThrow(() -> deleteCommand.execute(kb, ui, storage, session));
 
         assertEquals(0, kb.getSize(), "KnowledgeBase should be empty after deletion.");
     }
@@ -45,7 +47,7 @@ public class DeleteCommandTest {
     @Test
     void execute_invalidCardId_throwsCardNotFoundException() {
         DeleteCommand deleteCommand = new DeleteCommand(999);
-        assertThrows(CardNotFoundException.class, () -> deleteCommand.execute(kb, ui, storage));
+        assertThrows(CardNotFoundException.class, () -> deleteCommand.execute(kb, ui, storage, session));
     }
 
     @Test
@@ -53,7 +55,7 @@ public class DeleteCommandTest {
         kb.addCard(new Card(4, "Question 1", "Answer 1", "Tag 1"));
         kb.addCard(new Card(5, "Question 2", "Answer 2", "Tag 2"));
         DeleteCommand deleteCommand = new DeleteCommand(5);
-        assertDoesNotThrow(() -> deleteCommand.execute(kb, ui, storage));
+        assertDoesNotThrow(() -> deleteCommand.execute(kb, ui, storage, session));
         assertEquals(1, kb.getSize());
         assertThrows(CardNotFoundException.class, () -> kb.getCardById(5));
         assertEquals("Question 1", kb.getCardById(4).getQuestion());
@@ -63,7 +65,7 @@ public class DeleteCommandTest {
     void execute_emptyKnowledgeBase_throwsCardNotFoundException() {
         DeleteCommand deleteCommand = new DeleteCommand(1);
         kb = new KnowledgeBase();
-        assertThrows(CardNotFoundException.class, () -> deleteCommand.execute(kb, ui, storage));
+        assertThrows(CardNotFoundException.class, () -> deleteCommand.execute(kb, ui, storage, session));
     }
 
     @Test
