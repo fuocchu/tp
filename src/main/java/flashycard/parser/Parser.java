@@ -8,6 +8,7 @@ public class Parser {
     private static CommandParser[] parsers = new CommandParser[] {
         new AddCommandParser(),
         new DeleteCommandParser(),
+        new EditCommandParser(),
         new ExitCommandParser(),
         new FlipCommandParser(),
         new ListCommandParser(),

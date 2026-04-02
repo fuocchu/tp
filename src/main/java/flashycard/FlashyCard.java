@@ -58,6 +58,7 @@ public class FlashyCard {
     }
 
     public static void main(String[] args) {
+        java.util.logging.LogManager.getLogManager().reset();
         new FlashyCard("data/flashcards.txt").run();
     }
 }

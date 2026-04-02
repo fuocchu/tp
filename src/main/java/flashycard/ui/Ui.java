@@ -24,7 +24,6 @@ public class Ui {
         System.out.println("Available commands: add, list, view, flip, tag, find, save, test, delete, exit");
     }
 
-
     public void startStudySession(List<Card> cards) {
         StudySession session = new StudySession(cards);
         int correctCount = 0;
@@ -84,6 +83,12 @@ public class Ui {
 
     public void showDeletedMessage(Card card) {
         System.out.println("Noted. I've removed card #" + card.getId());
+    }
+
+    public void showEditedMessage(Card card) {
+        System.out.println("Got it. I've updated card #" + card.getId() + ":");
+        System.out.println("  Q: " + card.getQuestion() + " [" + card.getTag() + "]");
+        System.out.println("  A: " + card.getAnswer());
     }
 
     public void showList(KnowledgeBase knowledgeBase) {
