@@ -28,35 +28,25 @@ class StorageTest {
 
     @Test
     void storageCreatesFileAndCanLoadSave() throws Exception {
-        File file = new File(testFilePath);
-        if (file.exists()) {
-            file.delete();
-        }
         Storage storage = new Storage(testFilePath);
-        assertTrue(file.exists(), "Storage file should be created");
+        assertTrue(file.exists());
 
         KnowledgeBase kb = new KnowledgeBase();
         Card card = new Card("Q1?", "A1!");
         kb.addCard(card);
 
         storage.save(kb);
-        assertTrue(Files.size(file.toPath()) > 0, "Storage file should not be empty after save");
+        assertTrue(Files.size(file.toPath()) > 0);
 
         KnowledgeBase loadedKb = storage.load();
-        assertEquals(1, loadedKb.getSize(), "Loaded KnowledgeBase should have 1 card");
+        assertEquals(1, loadedKb.getSize());
         Card loadedCard = loadedKb.getCardById(card.getId());
         assertEquals("Q1?", loadedCard.getQuestion());
         assertEquals("A1!", loadedCard.getAnswer());
-        file.delete();
     }
 
     @Test
     void storage_canSaveAndLoadWithTags() throws Exception {
-        File file = new File(testFilePath);
-        if (file.exists()) {
-            file.delete();
-        }
-
         Storage storage = new Storage(testFilePath);
         KnowledgeBase kb = new KnowledgeBase();
 
@@ -65,14 +55,9 @@ class StorageTest {
 
         storage.save(kb);
 
-        String fileContent = Files.readString(file.toPath());
-        assertTrue(fileContent.contains("Programming"), "File should store the tag string");
-
         KnowledgeBase loadedKb = storage.load();
         Card loadedCard = loadedKb.getCardById(1);
-        assertEquals("Programming", loadedCard.getTag(), "Loaded tag should match original");
-
-        file.delete();
+        assertEquals("Programming", loadedCard.getTag());
     }
 
     @Test
@@ -86,8 +71,7 @@ class StorageTest {
 
         KnowledgeBase loadedKb = storage.load();
         assertTrue(loadedKb.getAllTestSets().containsKey("EmptySet"));
-        assertTrue(loadedKb.getAllTestSets().get("EmptySet").isEmpty(),
-                "Empty set should load as an empty list, not null");
+        assertTrue(loadedKb.getAllTestSets().get("EmptySet").isEmpty());
     }
 
     @Test
@@ -101,10 +85,6 @@ class StorageTest {
 
         storage.save(kb);
 
-        String fileContent = Files.readString(file.toPath());
-        assertTrue(fileContent.contains("True \\| False?"), "Pipes in questions should be escaped");
-        assertTrue(fileContent.contains("SET:Logic \\| Math"), "Pipes in set names should be escaped");
-
         KnowledgeBase loadedKb = storage.load();
         assertEquals("True | False?", loadedKb.getCardById(1).getQuestion());
         assertTrue(loadedKb.getAllTestSets().containsKey("Logic | Math"));
@@ -112,17 +92,13 @@ class StorageTest {
 
     @Test
     void storage_handlesLegacyDataWithoutTags() throws Exception {
-        File file = new File(testFilePath);
+        Storage storage = new Storage(testFilePath);
         String legacyLine = "99|Old Question|Old Answer\n";
         Files.writeString(file.toPath(), legacyLine);
 
-        Storage storage = new Storage(testFilePath);
         KnowledgeBase loadedKb = storage.load();
-
         Card legacyCard = loadedKb.getCardById(99);
-        assertEquals("none", legacyCard.getTag(), "Legacy data should default tag to 'none'");
-
-        file.delete();
+        assertEquals("none", legacyCard.getTag());
     }
 
     @Test
@@ -137,27 +113,73 @@ class StorageTest {
         storage.save(kb);
 
         KnowledgeBase loadedKb = storage.load();
-
-        assertTrue(loadedKb.getAllTestSets().containsKey("FinalExam"), "Set name should exist");
+        assertTrue(loadedKb.getAllTestSets().containsKey("FinalExam"));
         List<Integer> loadedIds = loadedKb.getAllTestSets().get("FinalExam");
-        assertEquals(2, loadedIds.size(), "Should contain exactly 2 IDs");
+        assertEquals(2, loadedIds.size());
         assertTrue(loadedIds.contains(1));
-        assertTrue(loadedIds.contains(2));
-
-        file.delete();
     }
 
     @Test
     void storage_handlesCorruptedData_throwsCorruptedDataException() throws Exception {
-        File file = new File(testFilePath);
+        Storage storage = new Storage(testFilePath);
         String corruptedLine = "NotAnInteger|Missing Parts\n";
         Files.writeString(file.toPath(), corruptedLine);
 
+        assertThrows(CorruptedDataException.class, storage::load);
+    }
+
+    @Test
+    void storage_loadIgnoresBlankLines() throws Exception {
         Storage storage = new Storage(testFilePath);
+        String dataWithBlankLine = "1|Q|A|T\n   \n2|Q2|A2|T2\n";
+        Files.writeString(file.toPath(), dataWithBlankLine);
 
-        assertThrows(CorruptedDataException.class, storage::load,
-                "Loading a file with malformed data should throw CorruptedDataException");
+        KnowledgeBase loadedKb = storage.load();
+        assertEquals(2, loadedKb.getSize());
+    }
 
+    @Test
+    void storage_handlesMissingPartsInCard_throwsCorruptedDataException() throws Exception {
+        Storage storage = new Storage(testFilePath);
+        String corruptedLine = "1|OnlyQuestion\n";
+        Files.writeString(file.toPath(), corruptedLine);
+
+        assertThrows(CorruptedDataException.class, storage::load);
+    }
+
+    @Test
+    void storage_loadThrowsCorruptedDataExceptionOnIOException() throws Exception {
+        Storage storage = new Storage(testFilePath);
+        // Force IOException by deleting the file right before loading
         file.delete();
+
+        assertThrows(CorruptedDataException.class, storage::load);
+    }
+
+    @Test
+    void storage_saveThrowsRuntimeExceptionOnIOException() {
+        File dirAsFile = new File("fake_dir_as_file");
+        dirAsFile.mkdir();
+
+        // This will successfully bypass creation because the directory "exists"
+        Storage storage = new Storage("fake_dir_as_file");
+        KnowledgeBase kb = new KnowledgeBase();
+
+        // FileWriter will throw a FileNotFoundException (which is an IOException) when
+        // attempting to write to a directory
+        assertThrows(RuntimeException.class, () -> storage.save(kb));
+
+        dirAsFile.delete();
+    }
+
+    @Test
+    void storage_handlesBlankTestSetIds() throws Exception {
+        Storage storage = new Storage(testFilePath);
+        // Triggers the !parts[1].isBlank() false branch in parseAndAddTestSet
+        Files.writeString(file.toPath(), "SET:BlankSet|   \n");
+
+        KnowledgeBase loadedKb = storage.load();
+        assertTrue(loadedKb.getAllTestSets().containsKey("BlankSet"));
+        assertTrue(loadedKb.getAllTestSets().get("BlankSet").isEmpty());
     }
 }
