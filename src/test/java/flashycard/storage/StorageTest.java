@@ -1,13 +1,16 @@
 package flashycard.storage;
 
+import flashycard.exceptions.CorruptedDataException;
 import flashycard.model.Card;
 import flashycard.model.KnowledgeBase;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class StorageTest {
@@ -15,7 +18,7 @@ class StorageTest {
     private final String testFilePath = "test_storage.txt";
     private File file;
 
-    @org.junit.jupiter.api.BeforeEach
+    @BeforeEach
     void setUp() {
         file = new File(testFilePath);
         if (file.exists()) {
@@ -140,6 +143,20 @@ class StorageTest {
         assertEquals(2, loadedIds.size(), "Should contain exactly 2 IDs");
         assertTrue(loadedIds.contains(1));
         assertTrue(loadedIds.contains(2));
+
+        file.delete();
+    }
+
+    @Test
+    void storage_handlesCorruptedData_throwsCorruptedDataException() throws Exception {
+        File file = new File(testFilePath);
+        String corruptedLine = "NotAnInteger|Missing Parts\n";
+        Files.writeString(file.toPath(), corruptedLine);
+
+        Storage storage = new Storage(testFilePath);
+
+        assertThrows(CorruptedDataException.class, storage::load,
+                "Loading a file with malformed data should throw CorruptedDataException");
 
         file.delete();
     }
