@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * Holds the temporary data and state for the current application run.
- * This includes the active study session and the results from the most recent
- * search or list command.
+ * Holds the temporary data and state for the current application run. This
+ * includes the active study session and the results from the most recent search
+ * or list command.
  */
 public class SessionContainer {
     private StudySession currentSession;
