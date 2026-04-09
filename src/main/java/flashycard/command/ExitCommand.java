@@ -27,4 +27,14 @@ public class ExitCommand extends Command {
         // No action required on execution.
     }
 
+    /**
+     * Indicates that this command should terminate the application flow.
+     *
+     * @return true, since executing this command triggers exit behavior.
+     */
+    @Override
+    public boolean isExit() {
+        return true;
+    }
+
 }
