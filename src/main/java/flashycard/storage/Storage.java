@@ -15,12 +15,24 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Handles the persistence of flashcard data and test sets to a local file.
+ * It manages file initialization, serialization of objects into a text-based
+ * format,
+ * and restoration of the KnowledgeBase state upon application startup.
+ */
 public class Storage {
 
     private static final Logger logger = Logger.getLogger(Storage.class.getName());
 
     private String filePath;
 
+    /**
+     * Initializes the storage component. Creates the target file and any
+     * necessary parent directories if they do not exist.
+     *
+     * @param filePath The path to the file where data will be stored.
+     */
     public Storage(String filePath) {
         assert filePath != null && !filePath.isBlank() : "File path should not be null or empty";
 
@@ -43,6 +55,13 @@ public class Storage {
         }
     }
 
+    /**
+     * Serializes the current KnowledgeBase into the storage file.
+     * Escapes pipe characters within card data to prevent parsing errors.
+     *
+     * @param knowledgeBase The knowledge base containing cards and test sets to
+     *                      save.
+     */
     public void save(KnowledgeBase knowledgeBase) {
         assert knowledgeBase != null : "KnowledgeBase should not be null";
 
@@ -83,6 +102,13 @@ public class Storage {
         }
     }
 
+    /**
+     * Reads the storage file and reconstructs the KnowledgeBase.
+     *
+     * @return A KnowledgeBase populated with the data from the file.
+     * @throws CorruptedDataException If the file contains malformed data or cannot
+     *                                be read.
+     */
     public KnowledgeBase load() throws CorruptedDataException {
         KnowledgeBase kb = new KnowledgeBase();
 
@@ -137,6 +163,12 @@ public class Storage {
         return kb;
     }
 
+    /**
+     * Parses a line representing a test set and adds it to the KnowledgeBase.
+     *
+     * @param line The raw line from the storage file starting with "SET:".
+     * @param kb   The KnowledgeBase to populate.
+     */
     private void parseAndAddTestSet(String line, KnowledgeBase kb) {
         String content = line.substring(4);
         String[] parts = content.split("(?<!\\\\)\\|");

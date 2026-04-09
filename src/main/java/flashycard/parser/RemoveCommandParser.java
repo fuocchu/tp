@@ -7,13 +7,31 @@ import flashycard.command.Command;
 import flashycard.command.RemoveCommand;
 import flashycard.exceptions.InvalidArgumentException;
 
+/**
+ * Parses user input specifically for the "remove" command.
+ * It identifies which card IDs, or all cards, should be removed from a specific
+ * test set.
+ */
 public class RemoveCommandParser extends CommandParser {
     private static final String REMOVE_REGEX = "(?<target>all|[\\d\\s]+)\\s+s/(?<setName>.+)";
 
+    /**
+     * Initializes the parser with the "remove" keyword and a regex to capture
+     * the target (specific IDs or "all") and the set name.
+     */
     public RemoveCommandParser() {
         super("remove", REMOVE_REGEX);
     }
 
+    /**
+     * Extracts the set name and the target IDs from the command string.
+     *
+     * @param fullCommand The raw input string from the user.
+     * @return A new RemoveCommand instance configured with the target IDs and set
+     *         name.
+     * @throws InvalidArgumentException If the ID format is invalid or missing
+     *                                  required components.
+     */
     @Override
     public Command parse(String fullCommand) throws InvalidArgumentException {
         Matcher matcher = this.match(fullCommand);

@@ -6,14 +6,31 @@ import flashycard.command.Command;
 import flashycard.command.EditCommand;
 import flashycard.exceptions.InvalidArgumentException;
 
+/**
+ * Parses user input specifically for the "edit" command.
+ * It allows users to update the question, the answer, or both for an existing
+ * card.
+ */
 public class EditCommandParser extends CommandParser {
-    private static final String EDIT_REGEX =
-            "(?<id>\\d+)(?:\\s+q/(?<question>.+?)(?=\\s+a/|$))?(?:\\s+a/(?<answer>.+))?";
+    private static final String EDIT_REGEX = "(?<id>\\d+)(?:\\s+q/(?<question>.+?)(?=\\s+a/|$))?(?:\\s+a/(?<answer>.+))?";
 
+    /**
+     * Initializes the parser with the "edit" keyword and a regex that captures
+     * the ID and optional question/answer updates.
+     */
     public EditCommandParser() {
         super("edit", EDIT_REGEX);
     }
 
+    /**
+     * Extracts the ID and the new content from the command string.
+     * Validates that at least one field (question or answer) is being changed.
+     *
+     * @param fullCommand The raw input string from the user.
+     * @return A new EditCommand instance with the updated details.
+     * @throws InvalidArgumentException If the ID is invalid or no updates are
+     *                                  provided.
+     */
     @Override
     public Command parse(String fullCommand) throws InvalidArgumentException {
         Matcher matcher = this.match(fullCommand);
@@ -26,7 +43,7 @@ public class EditCommandParser extends CommandParser {
         }
 
         String question = matcher.group("question");
-        String answer   = matcher.group("answer");
+        String answer = matcher.group("answer");
 
         if (question != null) {
             question = question.trim();
