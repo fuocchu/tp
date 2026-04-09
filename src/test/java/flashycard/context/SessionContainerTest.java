@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 public class SessionContainerTest {
 
@@ -34,7 +32,7 @@ public class SessionContainerTest {
     }
 
     @Test
-    void setSession_and_getSession_manageStateCorrectly() {
+    void setgetSession_manageStateCorrectly() {
         List<Card> dummyCards = new ArrayList<>();
         dummyCards.add(new Card(1, "Test Q", "Test A", "TestTag"));
         StudySession studySession = new StudySession(dummyCards);

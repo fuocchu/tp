@@ -19,11 +19,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class FlashyCardTest {
 
     private static class StubUi extends Ui {
-        private final List<String> inputs;
-        private int inputIndex = 0;
         public boolean welcomeShown = false;
         public boolean exitShown = false;
         public List<String> errors = new ArrayList<>();
+
+        private final List<String> inputs;
+        private int inputIndex = 0;
 
         public StubUi(List<String> inputs) {
             this.inputs = inputs;
