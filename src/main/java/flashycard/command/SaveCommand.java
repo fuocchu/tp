@@ -60,8 +60,4 @@ public class SaveCommand extends Command {
         ui.showSaveSetSuccess(setName, idsToSave.size());
     }
 
-    @Override
-    public boolean isExit() {
-        return false;
-    }
 }
