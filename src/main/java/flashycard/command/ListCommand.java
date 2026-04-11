@@ -26,8 +26,8 @@ public class ListCommand extends Command {
     }
 
     /**
-     * Gathers the requested cards, updates the session's last search results,
-     * and tells the UI to display them.
+     * Gathers the requested cards, updates the session's last search results, and
+     * tells the UI to display them.
      *
      * @param hb      The knowledge base containing all cards and sets.
      * @param ui      The interface used to show the list to the user.
@@ -60,6 +60,7 @@ public class ListCommand extends Command {
         if (setName != null) {
             System.out.println("Cards in set [" + setName + "]:");
         }
+        cardsToShow.sort((x, y) -> Integer.compare(x.getId(), y.getId()));
         ui.showSearchResults(cardsToShow, setName == null ? "all" : setName);
     }
 }
