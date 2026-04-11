@@ -6,10 +6,8 @@ import flashycard.exceptions.InvalidCommandException;
 
 /**
  * The main entry point for converting user input strings into executable
- * Command objects.
- * It maintains a registry of specific command parsers and delegates the parsing
- * task
- * to the one that matches the user's input keyword.
+ * Command objects. It maintains a registry of specific command parsers and
+ * delegates the parsing task to the one that matches the user's input keyword.
  */
 public class Parser {
     private static CommandParser[] parsers = new CommandParser[] {
@@ -47,7 +45,7 @@ public class Parser {
         String commandWord = fullCommand.trim().split("\\s+")[0];
 
         for (CommandParser p : parsers) {
-            if (commandWord.equals(p.MATCH_PREFIX)) {
+            if (commandWord.equalsIgnoreCase(p.MATCH_PREFIX)) {
                 return p.parse(fullCommand);
             }
         }
