@@ -37,5 +37,6 @@ public class DeleteCommand extends Command {
             throws CardNotFoundException {
         Card deletedCard = cards.deleteCard(cardId);
         ui.showDeletedMessage(deletedCard);
+        storage.save(cards);
     }
 }
