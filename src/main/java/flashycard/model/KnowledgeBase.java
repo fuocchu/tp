@@ -67,6 +67,11 @@ public class KnowledgeBase {
                     "Cannot delete card:  Card with given ID cannot be found in the knowledge base");
         }
 
+        // Remove card from all test sets
+        for (java.util.List<Integer> cardIds : testSets.values()) {
+            cardIds.remove(Integer.valueOf(id));
+        }
+
         return cards.remove(id);
     }
 
