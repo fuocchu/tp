@@ -53,6 +53,7 @@ public class FlashyCard {
                 fullCommand = ui.readCommand();
 
                 if (fullCommand == null) {
+                    ui.showError("Please enter a command.");
                     break;
                 }
 
