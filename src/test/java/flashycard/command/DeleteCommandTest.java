@@ -32,7 +32,7 @@ public class DeleteCommandTest {
         kb = new KnowledgeBase();
         ui = new Ui();
         String tempPath = tempDir.resolve("test_del.txt").toString();
-        storage = null;
+        storage = new StubStorage(tempPath);
     }
 
     @Test
@@ -72,5 +72,20 @@ public class DeleteCommandTest {
     public void isExit_returnsFalse() {
         DeleteCommand command = new DeleteCommand(1);
         assertFalse(command.isExit());
+    }
+
+    private static class StubStorage extends Storage {
+        StubStorage(String filePath) {
+            super(filePath);
+        }
+
+        @Override
+        public void save(KnowledgeBase kb) {
+        }
+
+        @Override
+        public KnowledgeBase load() {
+            return new KnowledgeBase();
+        }
     }
 }
