@@ -1,3 +1,6 @@
+## Chu Duong Huy Phuoc's Project Portfolio Page
+
+---
 ## Project: FlashyCard
 
 FlashyCard is a CLI-based flashcard app for fast typists to memorize content efficiently.
